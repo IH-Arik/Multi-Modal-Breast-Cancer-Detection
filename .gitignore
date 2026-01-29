@@ -1,0 +1,104 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyTorch
+*.pth
+*.pt
+*.ckpt
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Data and Results (keep structure, ignore content)
+# data/
+results/figures/*.png
+results/figures/*.pdf
+results/figures/*.jpg
+results/models/*.pth
+results/logs/*.log
+results/*.csv
+results/*.json
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Dataset paths (sensitive information)
+configs/dataset_paths.yaml
+configs/local_config.yaml
+
+# Large files
+*.h5
+*.hdf5
+*.pkl
+*.pickle
+
+# Research outputs
+experiments/
+outputs/
+checkpoints/
+runs/
+
+# Documentation build
+docs/_build/
+
+# Test coverage
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+
+# Security
+*.key
+*.pem
+*.crt

@@ -1,0 +1,98 @@
+# Multi-Modal Breast Cancer Detection Configuration
+# ===============================================
+
+# Model Configuration
+model:
+  modalities: ['ultrasound', 'mammography', 'histology']
+  backbones:
+    ultrasound: 'resnet50'
+    mammography: 'efficientnet_b4'
+    histology: 'swin_t'
+  fusion_method: 'attention'  # 'attention', 'gate', 'concat'
+  num_classes: 2
+  dropout: 0.3
+
+# Training Configuration
+training:
+  epochs: 100
+  batch_size: 32
+  learning_rate: 1e-4
+  weight_decay: 1e-5
+  optimizer: 'adamw'  # 'adam', 'adamw', 'sgd'
+  scheduler: 'cosine'  # 'cosine', 'step', 'plateau'
+  loss: 'cross_entropy'  # 'cross_entropy', 'focal', 'weighted_cross_entropy'
+  mixed_precision: true
+  val_metric: 'f1'  # 'accuracy', 'f1', 'auc'
+  checkpoint_freq: 10
+  early_stopping_patience: 20
+
+# Data Configuration
+data:
+  train_ratio: 0.7
+  val_ratio: 0.15
+  test_ratio: 0.15
+  target_size: [224, 224]
+  augment: true
+  num_workers: 4
+  pin_memory: true
+  
+  # Modality-specific settings
+  ultrasound:
+    intensity_transform: true
+    augment_params:
+      rotation_range: 15
+      horizontal_flip: true
+      color_jitter: 0.1
+  
+  mammography:
+    roi_detection: true
+    augment_params:
+      rotation_range: 10
+      horizontal_flip: false
+      contrast_adjustment: 0.1
+  
+  histology:
+    stain_normalization: true
+    magnification: '40x'  # '40x', '100x', '200x', '400x'
+    augment_params:
+      rotation_range: 90
+      horizontal_flip: true
+      color_jitter: 0.2
+
+# Evaluation Configuration
+evaluation:
+  metrics: ['accuracy', 'precision', 'recall', 'f1', 'auc']
+  bootstrap_samples: 1000
+  confidence_level: 0.95
+  calibration_bins: 10
+  save_predictions: true
+  save_attention_maps: true
+
+# Logging Configuration
+logging:
+  level: 'INFO'
+  save_logs: true
+  tensorboard: true
+  wandb: false
+  experiment_name: 'multi_modal_breast_cancer'
+
+# Paths Configuration
+paths:
+  data_dir: 'data/'
+  output_dir: 'results/'
+  model_dir: 'results/models/'
+  log_dir: 'results/logs/'
+  figure_dir: 'results/figures/'
+
+# Hardware Configuration
+hardware:
+  device: 'auto'  # 'auto', 'cpu', 'cuda'
+  num_gpus: 'auto'  # 'auto' or integer
+  mixed_precision: true
+  benchmark: true
+
+# Reproducibility
+reproducibility:
+  seed: 42
+  deterministic: true
+  benchmark: false

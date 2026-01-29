@@ -1,0 +1,133 @@
+# Configuration for Multi-Modal Breast Cancer Detection
+
+# Dataset paths (update these paths according to your setup)
+dataset_paths:
+  busi_dataset: "E:/Journal/Breast Cancer/Dataset_BUSI_with_GT"
+  cbis_ddsm_dataset: "E:/Journal/Breast Cancer/cbis-ddsm-breast-cancer-image-dataset"
+  breakhis_dataset: "E:/Journal/Breast Cancer/breast/BreaKHis_v1/BreaKHis_v1/histology_slides/breast"
+
+# Training configuration
+training:
+  batch_size: 16
+  epochs: 50
+  learning_rate: 0.0001
+  mixup_alpha: 0.2
+  device: "cuda"  # or "cpu"
+  
+# Model configuration
+models:
+  available_backbones:
+    - "resnet50"
+    - "efficientnet_b4"
+    - "efficientnet_b0"
+    - "densenet169"
+    - "swin_t"
+    - "vit_b_16"
+    - "regnet_y_400mf"
+    - "efficientnet_v2_s"
+    - "resnext50_32x4d"
+    - "wide_resnet50_2"
+  
+  # Default models for each modality
+  ultrasound_default: "efficientnet_b4"
+  mammography_default: "efficientnet_b0"
+  histology_default: "swin_t"
+
+# Evaluation configuration
+evaluation:
+  metrics:
+    - "accuracy"
+    - "precision"
+    - "recall"
+    - "f1"
+    - "auc"
+    - "sensitivity"
+    - "specificity"
+    - "mae"
+    - "rmse"
+
+# Results and logging
+results:
+  save_dir: "results"
+  model_save_dir: "results/models"
+  figure_save_dir: "results/figures"
+  log_dir: "results/logs"
+  
+  # File formats
+  model_format: "pth"
+  figure_format: "png"
+  data_format: "json"
+
+# Data preprocessing
+preprocessing:
+  image_size: 224
+  normalize_mean: [0.485, 0.456, 0.406]
+  normalize_std: [0.229, 0.224, 0.225]
+  
+  # Augmentation parameters
+  augmentation:
+    random_resized_crop_scale: [0.8, 1.0]
+    random_resized_crop_ratio: [0.75, 1.33]
+    rotation_degrees: 15
+    horizontal_flip_prob: 0.5
+    autocontrast_prob: 0.3
+    sharpness_factor: 1.2
+    sharpness_prob: 0.2
+    affine_scale: [0.95, 1.05]
+    random_erasing_prob: 0.25
+    random_erasing_scale: [0.02, 0.2]
+    random_erasing_ratio: [0.3, 3.3]
+
+# Loss function configuration
+loss:
+  class_balanced_focal:
+    beta: 0.9999
+    gamma: 2.0
+    drw: true  # Deferred Re-weighting
+
+# Split configuration
+splits:
+  train_ratio: 0.7
+  val_ratio: 0.2
+  test_ratio: 0.1
+  random_seed: 42
+  
+  # For histology: patient-level split
+  patient_level_split: true
+
+# Modality-specific settings
+modalities:
+  ultrasound:
+    num_classes: 3  # Normal, Benign, Malignant
+    exclude_masks: true
+    exclude_normal: false
+    normal_as_benign: false
+    
+  mammography:
+    num_classes: 2  # Benign, Malignant
+    roi_only: true
+    combine_mass_calc: true
+    
+  histology:
+    num_classes: 2  # Benign, Malignant
+    magnifications: ["40X", "100X", "200X", "400X"]
+    patient_level_split: true
+
+# Logging and debugging
+logging:
+  level: "INFO"
+  save_training_curves: true
+  save_confusion_matrices: true
+  save_roc_curves: true
+  
+# Research settings
+research:
+  save_all_models: true
+  cross_validation: false
+  ensemble_models: false
+  
+# Performance optimization
+optimization:
+  num_workers: 0
+  pin_memory: true
+  mixed_precision: false
