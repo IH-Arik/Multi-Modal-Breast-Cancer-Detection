@@ -238,7 +238,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-- Research Team: research@breast-cancer-detection.org
+
 - Project Repository: https://github.com/IH-Arik/Multi-Modal-Breast-Cancer-Detection
 
 ## Acknowledgments
